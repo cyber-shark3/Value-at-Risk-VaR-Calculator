@@ -52,8 +52,9 @@ class VaREngine:
             sims = rng.multivariate_normal(mean, self.cov_matrix, n_sims)
         elif dist == "t":
             chol = np.linalg.cholesky(self.cov_matrix + np.eye(len(mean)) * 1e-12)
-            z = rng.standard_t(df=5, size=(n_sims, len(mean)))
-            z /= np.sqrt(5 / rng.chisquare(5, size=(n_sims, 1)))
+            z = rng.standard_normal((n_sims, len(mean)))
+            scale = np.sqrt(rng.chisquare(5, size=(n_sims, 1)) / 5)
+            z = z / scale
             sims = z @ chol.T + mean
         else:
             raise ValueError("dist must be 'normal' or 't'")
