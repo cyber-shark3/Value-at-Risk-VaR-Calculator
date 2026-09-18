@@ -1,0 +1,37 @@
+name: Live VaR Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  live-var-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: pytest -q
+
+      - name: Run live VaR analysis
+        run: |
+          mkdir -p data/live_results
+          python examples/run_analysis.py | tee data/live_results/var_results.txt
+
+      - name: Upload live results
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-var-results
+          path: data/live_results/var_results.txt
