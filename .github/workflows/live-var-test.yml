@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MPLBACKEND: Agg
+      PYTHONPATH: .
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
