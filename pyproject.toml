@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "var-calculator"
+version = "0.1.0"
+description = "A modular Value at Risk and Expected Shortfall calculation tool."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["numpy", "pandas", "scipy", "matplotlib", "yfinance"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
